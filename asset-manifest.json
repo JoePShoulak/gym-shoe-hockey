@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/gym-shoe-hockey/static/css/main.073c9b0a.css",
+    "main.js": "/gym-shoe-hockey/static/js/main.692cea47.js",
+    "index.html": "/gym-shoe-hockey/index.html",
+    "main.073c9b0a.css.map": "/gym-shoe-hockey/static/css/main.073c9b0a.css.map",
+    "main.692cea47.js.map": "/gym-shoe-hockey/static/js/main.692cea47.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.692cea47.js"
+  ]
+}
