@@ -2,6 +2,7 @@ class Player {
   constructor() {
     this.shotPercentage = 7;
     this.shotCount = 4;
+    this.name = "BENCH";
 
     this.scoredGoals = 0;
   }
@@ -16,19 +17,19 @@ class Player {
   }
 
   takeAllShots() {
-    const shots = [];
-
-    Array(this.shotCount)
+    return Array(this.shotCount)
       .fill()
-      .forEach(() => {
+      .reduce((shots, _val) => {
+        let newShots = [...shots];
+
         if (this.takeShot())
-          shots.push({
+          newShots.push({
             name: this.name,
             period: Math.ceil(Math.random() * 3),
           });
-      });
 
-    return shots;
+        return newShots;
+      }, []);
   }
 }
 
@@ -61,13 +62,10 @@ class Team {
   }
 
   takeAllShots() {
-    let shots = [];
-
-    [...this.players, this.bench].forEach(
-      player => (shots = [...shots, ...player.takeAllShots()])
+    return [...this.players, this.bench].reduce(
+      (all, player) => [...all, ...player.takeAllShots()],
+      []
     );
-
-    return shots;
   }
 }
 

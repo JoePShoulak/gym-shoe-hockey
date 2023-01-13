@@ -1,6 +1,19 @@
 const BoxScore = ({ game }) => {
   console.log(game.goals);
 
+  const getGoals = (team, period) =>
+    game.goals[team].filter(goal => goal.period === period).length;
+
+  const TeamRow = ({ team }) => (
+    <tr>
+      <td>{team}</td>
+      <td>{getGoals(team, 1)}</td>
+      <td>{getGoals(team, 2)}</td>
+      <td>{getGoals(team, 3)}</td>
+      <td>{game.score[team]}</td>
+    </tr>
+  );
+
   return (
     <table>
       <thead>
@@ -13,27 +26,8 @@ const BoxScore = ({ game }) => {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Visitors</td>
-          <td>
-            {game.goals.visitors.filter(goal => goal.period === 1).length}
-          </td>
-          <td>
-            {game.goals.visitors.filter(goal => goal.period === 2).length}
-          </td>
-          <td>
-            {game.goals.visitors.filter(goal => goal.period === 3).length}
-          </td>
-          <td>{game.score.visitors}</td>
-        </tr>
-        <tr>
-          <td>Home</td>
-          <td>{game.goals.home.filter(goal => goal.period === 1).length}</td>
-          <td>{game.goals.home.filter(goal => goal.period === 2).length}</td>
-          <td>{game.goals.home.filter(goal => goal.period === 3).length}</td>
-          <td>{game.score.home}</td>
-        </tr>
-        <tr></tr>
+        <TeamRow team="visitors" />
+        <TeamRow team="home" />
       </tbody>
     </table>
   );
