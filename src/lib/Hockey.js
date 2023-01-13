@@ -16,11 +16,19 @@ class Player {
   }
 
   takeAllShots() {
-    const result = Array(this.shotCount)
-      .fill()
-      .reduce(acc => acc + this.takeShot(), 0);
+    const shots = [];
 
-    return result;
+    Array(this.shotCount)
+      .fill()
+      .forEach(() => {
+        if (this.takeShot())
+          shots.push({
+            name: this.name,
+            period: Math.ceil(Math.random() * 3),
+          });
+      });
+
+    return shots;
   }
 }
 
@@ -53,13 +61,45 @@ class Team {
   }
 
   takeAllShots() {
-    return [...this.players, this.bench]
-      .map(player => ({
-        name: player.name,
-        points: player.takeAllShots(),
-      }))
-      .filter(score => score.points !== 0);
+    let shots = [];
+
+    [...this.players, this.bench].forEach(
+      player => (shots = [...shots, ...player.takeAllShots()])
+    );
+
+    return shots;
   }
 }
 
-export { ActivePlayer, Team };
+class Game {
+  constructor(visitingTeam, homeTeam) {
+    this.teams = {
+      visitors: visitingTeam,
+      home: homeTeam,
+    };
+
+    this.goals = {
+      visitors: this.teams.visitors.takeAllShots(),
+      home: this.teams.home.takeAllShots(),
+    };
+
+    this.score = {
+      visitors: this.goals.visitors.length,
+      home: this.goals.home.length,
+    };
+
+    this.winner = null;
+
+    if (this.score.visitors === this.score.home) this.result = "It's a draw!";
+    else {
+      this.winner =
+        this.score.visitors > this.score.home
+          ? this.teams.visitors.name
+          : this.teams.home.name;
+
+      this.result = `${this.winner} won!`;
+    }
+  }
+}
+
+export { ActivePlayer, Team, Game };
