@@ -8,7 +8,7 @@ const Game = () => {
   const [mode, setMode] = useState("main");
   const [teams, setTeams] = useState({
     visitors: allTeams[0],
-    home: allTeams[0],
+    home: allTeams[1],
   });
 
   switch (mode) {

@@ -53,11 +53,13 @@ class Team {
   }
 
   takeAllShots() {
-    return [...this.players, this.bench].reduce(
-      (acc, val) => acc + val.takeAllShots(),
-      0
-    );
+    return [...this.players, this.bench]
+      .map(player => ({
+        name: player.name,
+        points: player.takeAllShots(),
+      }))
+      .filter(score => score.points !== 0);
   }
 }
 
-export { Player, ActivePlayer, Team };
+export { ActivePlayer, Team };

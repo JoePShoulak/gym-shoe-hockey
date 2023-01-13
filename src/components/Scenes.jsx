@@ -15,6 +15,7 @@ const Setup = ({ allTeams, setMode, teams, setTeams }) => {
         setTeams={setTeams}
         id="visitors"
       />
+
       <TeamSelector
         allTeams={allTeams}
         teams={teams}
@@ -34,10 +35,13 @@ const Results = ({ setMode, teams, teamData }) => {
   const visitorGoals = visitors.takeAllShots();
   const homeGoals = home.takeAllShots();
 
+  const visitorScore = visitorGoals.reduce((acc, val) => acc + val.points, 0);
+  const homeScore = homeGoals.reduce((acc, val) => acc + val.points, 0);
+
   let message;
-  if (visitorGoals === homeGoals) message = "It's a draw!";
+  if (visitorScore === homeScore) message = "It's a draw!";
   else {
-    const winner = visitorGoals > homeGoals ? visitors.name : home.name;
+    const winner = visitorScore > homeScore ? visitors.name : home.name;
     message = `${winner} won!`;
   }
 
@@ -45,8 +49,8 @@ const Results = ({ setMode, teams, teamData }) => {
     <div>
       <h2>{`${visitors.name} is playing ${home.name}...`}</h2>
 
-      <p>{`${visitors.name} scored ${visitorGoals} goals`}</p>
-      <p> {`${home.name} scored ${homeGoals} goals`}</p>
+      <p>{`${visitors.name} scored ${visitorScore} goals`}</p>
+      <p>{`${home.name} scored ${homeScore} goals`}</p>
 
       <p>{message}</p>
 
