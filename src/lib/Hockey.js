@@ -24,7 +24,8 @@ class Player {
 
         if (this.takeShot())
           newShots.push({
-            name: this.name,
+            player: this.name,
+            team: this.team,
             period: Math.ceil(Math.random() * 3),
           });
 
@@ -59,6 +60,7 @@ class Team {
     this.name = name;
     this.players = players;
     this.bench = new Player();
+    [...this.players, this.bench].forEach(player => (player.team = this.name));
   }
 
   takeAllShots() {
@@ -81,6 +83,12 @@ class Game {
       home: this.teams.home.takeAllShots(),
     };
 
+    this.details = [
+      ...this.getGoals(1),
+      ...this.getGoals(2),
+      ...this.getGoals(3),
+    ];
+
     this.score = {
       visitors: this.goals.visitors.length,
       home: this.goals.home.length,
@@ -98,6 +106,15 @@ class Game {
       this.result = `${this.winner} won!`;
     }
   }
+
+  getGoals = (period, team = null) => {
+    return team
+      ? this.goals[team].filter(goal => goal.period === period)
+      : [
+          ...this.getGoals(period, "home"),
+          ...this.getGoals(period, "visitors"),
+        ];
+  };
 }
 
 export { ActivePlayer, Team, Game };

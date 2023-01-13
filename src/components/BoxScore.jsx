@@ -1,15 +1,12 @@
 const BoxScore = ({ game }) => {
-  console.log(game.goals);
-
-  const getGoals = (team, period) =>
-    game.goals[team].filter(goal => goal.period === period).length;
+  console.log(game.details);
 
   const TeamRow = ({ team }) => (
     <tr>
       <td>{team}</td>
-      <td>{getGoals(team, 1)}</td>
-      <td>{getGoals(team, 2)}</td>
-      <td>{getGoals(team, 3)}</td>
+      <td>{game.getGoals(1, team).length}</td>
+      <td>{game.getGoals(2, team).length}</td>
+      <td>{game.getGoals(3, team).length}</td>
       <td>{game.score[team]}</td>
     </tr>
   );

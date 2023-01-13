@@ -47,6 +47,10 @@ const Results = ({ setMode, teams, teamData }) => {
 
       <BoxScore game={game} />
 
+      {game.details.map(goal => (
+        <p>{`${goal.player} scored for ${goal.team} in period ${goal.period}`}</p>
+      ))}
+
       <button onClick={() => setMode("main")}>Menu</button>
     </div>
   );
