@@ -1,3 +1,5 @@
+import shuffle from "../lib/helper";
+
 class Player {
   constructor() {
     this.shotPercentage = 7;
@@ -84,9 +86,9 @@ class Game {
     };
 
     this.details = [
-      ...this.getGoals(1),
-      ...this.getGoals(2),
-      ...this.getGoals(3),
+      ...shuffle(this.getGoals(1)),
+      ...shuffle(this.getGoals(2)),
+      ...shuffle(this.getGoals(3)),
     ];
 
     this.score = {

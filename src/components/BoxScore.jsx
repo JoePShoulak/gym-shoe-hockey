@@ -1,6 +1,4 @@
 const BoxScore = ({ game }) => {
-  console.log(game.details);
-
   const TeamRow = ({ team }) => (
     <tr>
       <td>{team}</td>
