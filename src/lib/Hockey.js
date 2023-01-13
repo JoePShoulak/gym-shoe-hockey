@@ -86,9 +86,9 @@ class Game {
     };
 
     this.details = [
-      ...shuffle(this.getGoals(1)),
-      ...shuffle(this.getGoals(2)),
-      ...shuffle(this.getGoals(3)),
+      ...this.getGoals(1),
+      ...this.getGoals(2),
+      ...this.getGoals(3),
     ];
 
     this.score = {

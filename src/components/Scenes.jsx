@@ -11,19 +11,15 @@ const Setup = ({ allTeams, setMode, teams, setTeams }) => {
     <div>
       <p>Select your teams</p>
 
-      <TeamSelector
-        allTeams={allTeams}
-        teams={teams}
-        setTeams={setTeams}
-        id="visitors"
-      />
-
-      <TeamSelector
-        allTeams={allTeams}
-        teams={teams}
-        setTeams={setTeams}
-        id="home"
-      />
+      {["home", "visitors"].map(team => (
+        <TeamSelector
+          allTeams={allTeams}
+          teams={teams}
+          setTeams={setTeams}
+          key={team}
+          id={team}
+        />
+      ))}
 
       <button onClick={() => setMode("playing")}>Play</button>
     </div>
