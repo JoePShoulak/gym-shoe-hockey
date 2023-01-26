@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/gym-shoe-hockey/static/css/main.073c9b0a.css",
-    "main.js": "/gym-shoe-hockey/static/js/main.3d132dbb.js",
+    "main.js": "/gym-shoe-hockey/static/js/main.8ee441fa.js",
     "index.html": "/gym-shoe-hockey/index.html",
     "main.073c9b0a.css.map": "/gym-shoe-hockey/static/css/main.073c9b0a.css.map",
-    "main.3d132dbb.js.map": "/gym-shoe-hockey/static/js/main.3d132dbb.js.map"
+    "main.8ee441fa.js.map": "/gym-shoe-hockey/static/js/main.8ee441fa.js.map"
   },
   "entrypoints": [
     "static/css/main.073c9b0a.css",
-    "static/js/main.3d132dbb.js"
+    "static/js/main.8ee441fa.js"
   ]
 }
