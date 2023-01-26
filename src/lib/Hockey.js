@@ -1,57 +1,58 @@
+import { doNTimes, shuffle } from "../lib/helper";
+
 class Player {
-  constructor() {
-    this.shotPercentage = 7;
-    this.shotCount = 4;
-    this.name = "BENCH";
+  constructor(fName, lName, pos, num) {
+    this.fName = fName;
+    this.lName = lName;
+    this.fullName = `${fName} ${lName}`;
 
-    this.scoredGoals = 0;
-  }
-
-  takeShot() {
-    const shot = Math.floor(Math.random() * 100);
-
-    const scored = shot < this.shotPercentage;
-    if (scored) this.scoredGoals++;
-
-    return scored;
-  }
-
-  takeAllShots() {
-    return Array(this.shotCount)
-      .fill()
-      .reduce((shots, _val) => {
-        let newShots = [...shots];
-
-        if (this.takeShot())
-          newShots.push({
-            player: this.name,
-            team: this.team,
-            period: Math.ceil(Math.random() * 3),
-          });
-
-        return newShots;
-      }, []);
+    this.pos = pos;
+    this.id = num;
   }
 }
 
-class ActivePlayer extends Player {
-  constructor(name, id) {
-    super();
+class Skater extends Player {
+  constructor(fName, lName, pos, num, shotPercentage, rating) {
+    super(fName, lName, pos, num);
 
-    this.name = name;
-    this.id = id;
-    this.shotPercentage = 7 + Math.floor(Math.random() * 7);
-    this.shotCount = this.getShotCount();
+    this.shotRate = shotPercentage ?? 0.07;
+
+    switch (rating) {
+      case "A":
+        this.shotCount = 5;
+        break;
+      case "B":
+      case "C":
+        this.shotCount = 4;
+        break;
+      case "D":
+      case "E":
+      case "F":
+        this.shotCount = 3;
+        break;
+      case "G":
+      case "H":
+      case "I":
+        this.shotCount = 2;
+        break;
+      case "J":
+      case "K":
+      default:
+        this.shotCount = 1;
+        break;
+    }
   }
 
-  getShotCount() {
-    let numShots = 5;
+  takeShot() {
+    return Math.random() < this.shotRate;
+  }
+}
 
-    if (["B", "C"].includes(this.id)) numShots = 4;
-    else if (["D", "E", "F"].includes(this.id)) numShots = 3;
-    else if (["G", "H"].includes(this.id)) numShots = 2;
+class Goalie extends Player {
+  constructor(fName, lName, pos, num, blockPercentage) {
+    super(fName, lName, pos, num);
 
-    return numShots;
+    this.blockPercentage = blockPercentage;
   }
 }
 
@@ -59,62 +60,75 @@ class Team {
   constructor(name, ...players) {
     this.name = name;
     this.players = players;
-    this.bench = new Player();
-    [...this.players, this.bench].forEach(player => (player.team = this.name));
-  }
 
-  takeAllShots() {
-    return [...this.players, this.bench].reduce(
-      (all, player) => [...all, ...player.takeAllShots()],
-      []
-    );
+    this.skaters = this.players.filter(p => p instanceof Skater);
+    this.goalies = this.players.filter(p => p instanceof Goalie);
+  }
+}
+
+class Goal {
+  constructor(team, player) {
+    this.team = team;
+    this.player = player;
+    this.period = Math.ceil(Math.random() * 3);
   }
 }
 
 class Game {
-  constructor(visitingTeam, homeTeam) {
+  constructor(visTeam, homeTeam) {
     this.teams = {
-      visitors: visitingTeam,
       home: homeTeam,
+      vis: visTeam,
     };
 
-    this.goals = {
-      visitors: this.teams.visitors.takeAllShots(),
-      home: this.teams.home.takeAllShots(),
-    };
+    this.goals = [];
 
-    this.details = [
-      ...this.getGoals(1),
-      ...this.getGoals(2),
-      ...this.getGoals(3),
-    ];
-
-    this.score = {
-      visitors: this.goals.visitors.length,
-      home: this.goals.home.length,
-    };
-
-    this.winner = null;
-
-    if (this.score.visitors === this.score.home) this.result = "It's a draw!";
-    else {
-      this.winner =
-        this.score.visitors > this.score.home
-          ? this.teams.visitors.name
-          : this.teams.home.name;
-
-      this.result = `${this.winner} won!`;
-    }
+    this.takeAllShots();
+    this.sortGoalsByPeriod();
   }
 
-  getGoals = (period, team = null) => {
-    return team
-      ? this.goals[team].filter(goal => goal.period === period)
-      : [
-          ...this.getGoals(period, "home"),
-          ...this.getGoals(period, "visitors"),
-        ];
-  };
+  /* == HELPERS == */
+  get score() {
+    return {
+      home: this.teamGoals("home").length ?? 0,
+      vis: this.teamGoals("vis").length ?? 0,
+    };
+  }
+
+  teamGoals(teamType) {
+    return this.goals.filter(g => g.team.name === this.teams[teamType].name);
+  }
+
+  periodGoals(period) {
+    return this.goals.filter(g => g.period === period);
+  }
+
+  newGoal(team, player) {
+    this.goals.push(new Goal(team, player));
+  }
+
+  /* == ACTIONS == */
+  takeAllShots() {
+    [this.teams.home, this.teams.vis].forEach(team => {
+      team.players.forEach(player => {
+        doNTimes(player.shotCount, _shot => {
+          if (player.takeShot()) this.newGoal(team, player);
+        });
+      });
+    });
+  }
+
+  sortGoalsByPeriod() {
+    shuffle(this.goals);
+
+    const sortedGoals = [
+      ...this.periodGoals(1),
+      ...this.periodGoals(2),
+      ...this.periodGoals(3),
+    ];
+
+    this.goals = sortedGoals;
+  }
 }
 
-export { ActivePlayer, Team, Game };
+export { Game, Team, Skater, Goalie };

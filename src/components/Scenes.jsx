@@ -11,7 +11,7 @@ const Setup = ({ allTeams, setMode, teams, setTeams }) => {
     <div>
       <p>Select your teams</p>
 
-      {["home", "visitors"].map(team => (
+      {["visitors", "home"].map(team => (
         <TeamSelector
           allTeams={allTeams}
           teams={teams}
@@ -34,17 +34,20 @@ const Results = ({ setMode, teams, teamData }) => {
 
   return (
     <div>
-      <h2>{`${visitors.name} is playing ${home.name}...`}</h2>
+      <h2>{`${game.teams.vis.name} is playing ${game.teams.home.name}...`}</h2>
 
-      <p>{`${visitors.name} scored ${game.score.visitors} goals`}</p>
-      <p>{`${home.name} scored ${game.score.home} goals`}</p>
+      <p>{`${game.teams.vis.name} scored ${game.score.vis} goals`}</p>
+      <p>{`${game.teams.home.name} scored ${game.score.home} goals`}</p>
 
       <p>{game.result}</p>
 
       <BoxScore game={game} />
 
-      {game.details.map(goal => (
-        <p>{`${goal.player} scored for ${goal.team} in period ${goal.period}`}</p>
+      {game.goals.map((goal, index) => (
+        <p
+          key={
+            index
+          }>{`${goal.player.lName} scored for ${goal.team.name} in period ${goal.period}`}</p>
       ))}
 
       <button onClick={() => setMode("main")}>Menu</button>

@@ -1,4 +1,4 @@
-import { ActivePlayer, Team } from "../lib/Hockey";
+import { Skater, Team } from "../lib/Hockey";
 
 const info = [
   {
@@ -35,10 +35,13 @@ const info = [
   },
 ];
 
-const zlin = new Team("Zlin", ...info.map(i => new ActivePlayer(i.name, i.id)));
+const zlin = new Team(
+  "Zlin",
+  ...info.map(i => new Skater("fName", i.name, "pos", "num", 0.07, i.id))
+);
 const zlin2 = new Team(
   "Zlin2",
-  ...info.map(i => new ActivePlayer(i.name, i.id))
+  ...info.map(i => new Skater("fName", i.name, "pos", "num", 0.07, i.id))
 );
 
 const teamData = [zlin, zlin2];
