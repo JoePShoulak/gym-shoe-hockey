@@ -2,32 +2,30 @@ import { useState } from "react";
 import { Menu, Setup, Results } from "./Scenes";
 import teamData from "../data/teams";
 
-const Game = () => {
-  const allTeams = teamData.map(team => team.name);
+import { TeamContext } from "../util/TeamContext";
 
-  const [mode, setMode] = useState("main");
+const Game = () => {
+  const teamNames = teamData.map(team => team.name);
+
+  const [scene, setScene] = useState("main");
   const [teams, setTeams] = useState({
-    visitors: allTeams[0],
-    home: allTeams[1],
+    visitors: teamNames[0],
+    home: teamNames[1],
   });
 
-  switch (mode) {
-    case "main":
-      return <Menu setMode={setMode} />;
-    case "setup":
-      return (
-        <Setup
-          allTeams={allTeams}
-          teams={teams}
-          setTeams={setTeams}
-          setMode={setMode}
-        />
-      );
-    case "playing":
-      return <Results teamData={teamData} setMode={setMode} teams={teams} />;
-    default:
-      break;
-  }
+  return (
+    <TeamContext.Provider value={teamNames}>
+      <>
+        {scene === "main" && <Menu setScene={setScene} />}
+        {scene === "setup" && (
+          <Setup teams={teams} setTeams={setTeams} setScene={setScene} />
+        )}
+        {scene === "playing" && (
+          <Results teamData={teamData} setScene={setScene} teams={teams} />
+        )}
+      </>
+    </TeamContext.Provider>
+  );
 };
 
 export default Game;

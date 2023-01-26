@@ -85,6 +85,14 @@ class Game {
 
     this.takeAllShots();
     this.sortGoalsByPeriod();
+
+    if (this.score.home === this.score.vis) this.result = "It's a draw!";
+    else {
+      this.winner =
+        this.teams[this.score.home > this.score.vis ? "home" : "vis"];
+
+      this.result = `${this.winner.name} won!`;
+    }
   }
 
   /* == HELPERS == */
