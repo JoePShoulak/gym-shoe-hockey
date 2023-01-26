@@ -1,5 +1,5 @@
 import { Game } from "../lib/Hockey";
-import BoxScore from "./BoxScore";
+import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
 
 const Menu = ({ setMode }) => (
@@ -34,21 +34,13 @@ const Results = ({ setMode, teams, teamData }) => {
 
   return (
     <div>
-      <h2>{`${game.teams.vis.name} is playing ${game.teams.home.name}...`}</h2>
+      <Header game={game} />
 
-      <p>{`${game.teams.vis.name} scored ${game.score.vis} goals`}</p>
-      <p>{`${game.teams.home.name} scored ${game.score.home} goals`}</p>
-
-      <p>{game.result}</p>
+      <BasicScore game={game} />
 
       <BoxScore game={game} />
 
-      {game.goals.map((goal, index) => (
-        <p
-          key={
-            index
-          }>{`${goal.player.lName} scored for ${goal.team.name} in period ${goal.period}`}</p>
-      ))}
+      <PlayByPlay game={game} />
 
       <button onClick={() => setMode("main")}>Menu</button>
     </div>
