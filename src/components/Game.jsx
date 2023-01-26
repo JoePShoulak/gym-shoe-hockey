@@ -3,12 +3,12 @@ import { Menu, Setup, Results } from "./Scenes";
 import teamData from "../data/teams";
 
 const Game = () => {
-  const allTeams = teamData.map(team => team.name);
+  const teamNames = teamData.map(team => team.name);
 
   const [mode, setMode] = useState("main");
   const [teams, setTeams] = useState({
-    visitors: allTeams[0],
-    home: allTeams[1],
+    visitors: teamNames[0],
+    home: teamNames[1],
   });
 
   switch (mode) {
@@ -17,7 +17,7 @@ const Game = () => {
     case "setup":
       return (
         <Setup
-          allTeams={allTeams}
+          teamNames={teamNames}
           teams={teams}
           setTeams={setTeams}
           setMode={setMode}

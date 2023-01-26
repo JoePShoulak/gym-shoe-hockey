@@ -1,4 +1,4 @@
-const TeamSelector = ({ allTeams, teams, setTeams, id }) => (
+const TeamSelector = ({ teamNames, teams, setTeams, id }) => (
   <div>
     <p>{id}</p>
     <select
@@ -8,9 +8,9 @@ const TeamSelector = ({ allTeams, teams, setTeams, id }) => (
         newTeams[id] = e.target.value;
         setTeams(newTeams);
       }}>
-      {allTeams.map(t => (
-        <option key={t} value={t}>
-          {t}
+      {teamNames.map(name => (
+        <option key={name} value={name}>
+          {name}
         </option>
       ))}
     </select>

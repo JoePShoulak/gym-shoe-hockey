@@ -14,7 +14,7 @@ const BasicScore = ({ game }) => (
   </>
 );
 
-const byPeriod = p => g => g.period === p;
+const byPeriod = p => g => g.period === p + 1;
 
 const BoxScore = ({ game }) => {
   const Header = () => (
@@ -31,9 +31,7 @@ const BoxScore = ({ game }) => {
     <tr>
       <td>{game.teams[teamType].name}</td>
       {doNTimes(3, (_, i) => (
-        <td key={i}>
-          {game.teamGoals(teamType).filter(byPeriod(i + 1)).length}
-        </td>
+        <td key={i}>{game.teamGoals(teamType).filter(byPeriod(i)).length}</td>
       ))}
       <td>{game.score[teamType] ?? 0}</td>
     </tr>
