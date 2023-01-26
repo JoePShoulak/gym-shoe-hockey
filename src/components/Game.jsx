@@ -18,9 +18,9 @@ const Game = () => {
       return (
         <Setup
           allTeams={allTeams}
-          setMode={setMode}
           teams={teams}
           setTeams={setTeams}
+          setMode={setMode}
         />
       );
     case "playing":

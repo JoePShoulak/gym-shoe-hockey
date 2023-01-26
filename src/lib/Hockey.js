@@ -1,5 +1,3 @@
-import shuffle from "../lib/helper";
-
 class Player {
   constructor() {
     this.shotPercentage = 7;
