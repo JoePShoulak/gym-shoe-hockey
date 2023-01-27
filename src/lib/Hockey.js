@@ -92,6 +92,8 @@ class Game {
       home: homeTeam,
       vis: visTeam,
     };
+
+    this.play();
   }
 
   play() {

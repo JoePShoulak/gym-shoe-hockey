@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Menu, Setup, Results } from "./Scenes";
+import { Menu, Setup, Results, Upload } from "./Scenes";
 import { GameContext } from "../util/GameContext";
 import { loadTeams } from "../util/loadTeams";
 
 const Game = () => {
   const [teamData, setTeamData] = useState();
-  const [scene, setScene] = useState("main");
+  const [scene, setScene] = useState("menu");
   const [selectedTeams, setSelectedTeams] = useState();
 
   useEffect(() => {
@@ -26,14 +26,16 @@ const Game = () => {
       <GameContext.Provider
         value={{
           all: teamData,
+          setAll: setTeamData,
           selected: selectedTeams,
           setSelected: setSelectedTeams,
           setScene,
         }}>
         <>
-          {scene === "main" && <Menu />}
+          {scene === "menu" && <Menu />}
           {scene === "setup" && <Setup />}
-          {scene === "playing" && <Results />}
+          {scene === "play" && <Results />}
+          {scene === "upload" && <Upload />}
         </>
       </GameContext.Provider>
     )

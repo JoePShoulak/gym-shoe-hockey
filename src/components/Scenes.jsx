@@ -1,28 +1,34 @@
-import { useContext } from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Game } from "../lib/Hockey";
 import { GameContext } from "../util/GameContext";
+import { parseUpload } from "../util/loadTeams";
 import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
 
-const Menu = () => {
+const SceneButton = ({ scene }) => {
   const GC = useContext(GameContext);
 
-  return <button onClick={() => GC.setScene("setup")}>Start</button>;
+  return <button onClick={() => GC.setScene(scene)}>{scene}</button>;
+};
+
+const Menu = () => {
+  return (
+    <>
+      <SceneButton scene="setup" />
+      <SceneButton scene="upload" />
+    </>
+  );
 };
 
 const Setup = () => {
-  const GC = useContext(GameContext);
-
   return (
     <>
       <p>Select your teams</p>
-
       {["visitors", "home"].map(team => (
         <TeamSelector key={team} id={team} />
       ))}
-
-      <button onClick={() => GC.setScene("playing")}>Play</button>
+      <SceneButton scene="play" />
+      <SceneButton scene="menu" />
     </>
   );
 };
@@ -33,7 +39,7 @@ const Results = () => {
   const visitors = GC.all.filter(team => team.name === GC.selected.visitors)[0];
   const home = GC.all.filter(team => team.name === GC.selected.home)[0];
 
-  const [game, setGame] = useState(new Game(visitors, home).play());
+  const [game, setGame] = useState(new Game(visitors, home));
 
   return (
     <>
@@ -41,12 +47,31 @@ const Results = () => {
       <BasicScore game={game} />
       <BoxScore game={game} />
       <PlayByPlay game={game} />
-
-      {/* TODO: Add replay button */}
-      <button onClick={() => setGame(game.play())}>Replay</button>
-      <button onClick={() => GC.setScene("main")}>Menu</button>
+      <button onClick={() => setGame(new Game(visitors, home))}>Replay</button>
+      <SceneButton scene="menu" />
     </>
   );
 };
 
-export { Menu, Setup, Results };
+const Upload = () => {
+  const GC = useContext(GameContext);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    parseUpload(file, true).then(csv => {
+      console.log(csv);
+      GC.setAll([...GC.all, csv]);
+      console.log(GC.all);
+    });
+  };
+
+  return (
+    <>
+      <input type="file" onChange={handleSubmit} accept=".csv" />
+      <SceneButton scene="menu" />
+    </>
+  );
+};
+
+export { Menu, Setup, Results, Upload };
