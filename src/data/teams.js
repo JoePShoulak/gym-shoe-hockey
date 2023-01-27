@@ -1,49 +1,30 @@
-import { Skater, Team } from "../lib/Hockey";
+import Papa from "papaparse";
+import { Player, Team } from "../lib/Hockey";
 
-const info = [
-  {
-    name: "Sulak",
-    id: "A",
-  },
-  {
-    name: "Mikita",
-    id: "B",
-  },
-  {
-    name: "Hossa",
-    id: "C",
-  },
-  {
-    name: "Marek",
-    id: "D",
-  },
-  {
-    name: "Svoboda",
-    id: "E",
-  },
-  {
-    name: "Demitra",
-    id: "F",
-  },
-  {
-    name: "Holik, B",
-    id: "G",
-  },
-  {
-    name: "Horava",
-    id: "H",
-  },
-];
+async function parseCSV(file) {
+  const response = await fetch(file);
+  const data = await response.text();
 
-const zlin = new Team(
-  "Zlin",
-  ...info.map(i => new Skater("fName", i.name, "pos", "num", 0.07, i.id))
-);
-const zlin2 = new Team(
-  "Zlin2",
-  ...info.map(i => new Skater("fName", i.name, "pos", "num", 0.07, i.id))
-);
+  const titleData = Papa.parse(data, {
+    preview: 1,
+  });
 
-const teamData = [zlin, zlin2];
+  const playerData = Papa.parse(data, {
+    comments: "//",
+    header: true,
+  });
 
-export default teamData;
+  const title = titleData.data[0][1];
+  const players = playerData.data.map(Player.parseCSV);
+
+  return new Team(title, ...players);
+}
+
+const getTeams = async () => {
+  const file1 = require("../data/Jihlava.csv");
+  const file2 = require("../data/Kladno.csv");
+
+  return await Promise.all([parseCSV(file1), parseCSV(file2)]);
+};
+
+export { getTeams };

@@ -1,6 +1,18 @@
 import { doNTimes, shuffle } from "../lib/helper";
 
 class Player {
+  static parseCSV = player => {
+    const data = [
+      player["F NAME"],
+      player["L NAME"],
+      player["POS"],
+      player["#"],
+      player["SH% / SV%"] / 100,
+    ];
+
+    return new (player["SK / G"] === "SK" ? Skater : Goalie)(...data);
+  };
+
   constructor(fName, lName, pos, num) {
     this.fName = fName;
     this.lName = lName;
@@ -12,7 +24,7 @@ class Player {
 }
 
 class Skater extends Player {
-  constructor(fName, lName, pos, num, shotPercentage, rating) {
+  constructor(fName, lName, pos, num, shotPercentage, rating = "G") {
     super(fName, lName, pos, num);
 
     this.shotRate = shotPercentage ?? 0.07;
@@ -81,6 +93,10 @@ class Game {
       vis: visTeam,
     };
 
+    this.play();
+  }
+
+  play() {
     this.goals = [];
 
     this.takeAllShots();
@@ -93,6 +109,8 @@ class Game {
 
       this.result = `${this.winner.name} won!`;
     }
+
+    return this;
   }
 
   /* == HELPERS == */
@@ -118,7 +136,7 @@ class Game {
   /* == ACTIONS == */
   takeAllShots() {
     [this.teams.home, this.teams.vis].forEach(team => {
-      team.players.forEach(player => {
+      team.skaters.forEach(player => {
         doNTimes(player.shotCount, _shot => {
           if (player.takeShot()) this.newGoal(team, player);
         });
@@ -139,4 +157,4 @@ class Game {
   }
 }
 
-export { Game, Team, Skater, Goalie };
+export { Game, Team, Player, Skater, Goalie };

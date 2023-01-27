@@ -2,9 +2,9 @@ import { Game } from "../lib/Hockey";
 import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
 
-const Menu = ({ setScene }) => (
-  <button onClick={() => setScene("setup")}>Start</button>
-);
+const Menu = ({ setScene }) => {
+  return <button onClick={() => setScene("setup")}>Start</button>;
+};
 
 const Setup = ({ setScene, teams, setTeams }) => {
   return (
