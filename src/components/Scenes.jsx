@@ -1,30 +1,39 @@
+import { useContext } from "react";
+import { useState } from "react";
 import { Game } from "../lib/Hockey";
+import { GameContext } from "../util/GameContext";
 import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
 
-const Menu = ({ setScene }) => {
-  return <button onClick={() => setScene("setup")}>Start</button>;
+const Menu = () => {
+  const GC = useContext(GameContext);
+
+  return <button onClick={() => GC.setScene("setup")}>Start</button>;
 };
 
-const Setup = ({ setScene, teams, setTeams }) => {
+const Setup = () => {
+  const GC = useContext(GameContext);
+
   return (
     <>
       <p>Select your teams</p>
 
       {["visitors", "home"].map(team => (
-        <TeamSelector teams={teams} setTeams={setTeams} key={team} id={team} />
+        <TeamSelector key={team} id={team} />
       ))}
 
-      <button onClick={() => setScene("playing")}>Play</button>
+      <button onClick={() => GC.setScene("playing")}>Play</button>
     </>
   );
 };
 
-const Results = ({ setScene, teams, teamData }) => {
-  const visitors = teamData.filter(team => team.name === teams.visitors)[0];
-  const home = teamData.filter(team => team.name === teams.home)[0];
+const Results = () => {
+  const GC = useContext(GameContext);
 
-  const game = new Game(visitors, home);
+  const visitors = GC.all.filter(team => team.name === GC.selected.visitors)[0];
+  const home = GC.all.filter(team => team.name === GC.selected.home)[0];
+
+  const [game, setGame] = useState(new Game(visitors, home).play());
 
   return (
     <>
@@ -33,7 +42,9 @@ const Results = ({ setScene, teams, teamData }) => {
       <BoxScore game={game} />
       <PlayByPlay game={game} />
 
-      <button onClick={() => setScene("main")}>Menu</button>
+      {/* TODO: Add replay button */}
+      <button onClick={() => setGame(game.play())}>Replay</button>
+      <button onClick={() => GC.setScene("main")}>Menu</button>
     </>
   );
 };

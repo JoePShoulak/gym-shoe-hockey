@@ -1,40 +1,42 @@
 import { useState } from "react";
 import { Menu, Setup, Results } from "./Scenes";
-import { TeamContext } from "../util/TeamContext";
+import { GameContext } from "../util/GameContext";
 import { useEffect } from "react";
 import { loadTeams } from "../util/loadTeams";
 
 const Game = () => {
   const [teamData, setTeamData] = useState();
   const [scene, setScene] = useState("main");
-  const [teams, setTeams] = useState();
+  const [selectedTeams, setSelectedTeams] = useState();
 
   useEffect(() => {
     loadTeams().then(setTeamData);
   }, []);
 
   useEffect(() => {
-    if (!teams && teamData) {
-      setTeams({
+    if (!selectedTeams && teamData) {
+      setSelectedTeams({
         home: teamData[0].name,
         visitors: teamData[1].name,
       });
     }
-  }, [teams, teamData]);
+  }, [selectedTeams, teamData]);
 
   return (
     teamData && (
-      <TeamContext.Provider value={teamData.map(team => team.name)}>
+      <GameContext.Provider
+        value={{
+          all: teamData,
+          selected: selectedTeams,
+          setSelected: setSelectedTeams,
+          setScene,
+        }}>
         <>
-          {scene === "main" && <Menu setScene={setScene} />}
-          {scene === "setup" && (
-            <Setup teams={teams} setTeams={setTeams} setScene={setScene} />
-          )}
-          {scene === "playing" && (
-            <Results teamData={teamData} setScene={setScene} teams={teams} />
-          )}
+          {scene === "main" && <Menu />}
+          {scene === "setup" && <Setup />}
+          {scene === "playing" && <Results />}
         </>
-      </TeamContext.Provider>
+      </GameContext.Provider>
     )
   );
 };

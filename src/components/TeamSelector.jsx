@@ -1,22 +1,22 @@
 import { useContext } from "react";
-import { TeamContext } from "../util/TeamContext";
+import { GameContext } from "../util/GameContext";
 
-const TeamSelector = ({ teams, setTeams, id }) => {
-  const names = useContext(TeamContext);
+const TeamSelector = ({ id }) => {
+  const GC = useContext(GameContext);
 
   return (
     <div>
       <p>{id}</p>
       <select
-        value={teams[id]}
+        value={GC.selected[id]}
         onChange={e => {
-          const newTeams = { ...teams };
+          const newTeams = { ...GC.selected };
           newTeams[id] = e.target.value;
-          setTeams(newTeams);
+          GC.setSelected(newTeams);
         }}>
-        {names.map(name => (
-          <option key={name} value={name}>
-            {name}
+        {GC.all.map(t => (
+          <option key={t.name} value={t.name}>
+            {t.name}
           </option>
         ))}
       </select>

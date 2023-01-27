@@ -92,8 +92,6 @@ class Game {
       home: homeTeam,
       vis: visTeam,
     };
-
-    this.play();
   }
 
   play() {
@@ -136,10 +134,8 @@ class Game {
   /* == ACTIONS == */
   takeAllShots() {
     [this.teams.home, this.teams.vis].forEach(team => {
-      team.skaters.forEach(player => {
-        doNTimes(player.shotCount, _shot => {
-          if (player.takeShot()) this.newGoal(team, player);
-        });
+      team.skaters.forEach(sk => {
+        doNTimes(sk.shotCount, () => sk.takeShot() && this.newGoal(team, sk));
       });
     });
   }

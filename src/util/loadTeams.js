@@ -5,9 +5,7 @@ async function parseCSV(file) {
   const response = await fetch(file);
   const data = await response.text();
 
-  const titleData = Papa.parse(data, {
-    preview: 1,
-  });
+  const titleData = Papa.parse(data, { preview: 1 });
 
   const playerData = Papa.parse(data, {
     comments: "//",
