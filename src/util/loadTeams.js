@@ -19,17 +19,10 @@ async function parseCSV(file) {
 }
 
 const loadTeams = async () => {
-  const file1 = require("../data/Jihlava.csv");
-  const file2 = require("../data/Kladno.csv");
-  const file3 = require("../data/Liberec.csv");
-  const file4 = require("../data/Pardubice.csv");
+  const req = require.context("../data/", true, /\.csv$/);
+  const teamCSVs = req.keys().map(key => req(key));
 
-  return await Promise.all([
-    parseCSV(file1),
-    parseCSV(file2),
-    parseCSV(file3),
-    parseCSV(file4),
-  ]);
+  return await Promise.all(teamCSVs.map(parseCSV));
 };
 
 export { loadTeams };

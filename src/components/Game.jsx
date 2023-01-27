@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, Setup, Results } from "./Scenes";
 import { GameContext } from "../util/GameContext";
-import { useEffect } from "react";
 import { loadTeams } from "../util/loadTeams";
 
 const Game = () => {
