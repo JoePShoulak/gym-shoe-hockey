@@ -20,11 +20,11 @@ async function parseCSV(file) {
   return new Team(title, ...players);
 }
 
-const getTeams = async () => {
+const loadTeams = async () => {
   const file1 = require("../data/Jihlava.csv");
   const file2 = require("../data/Kladno.csv");
 
   return await Promise.all([parseCSV(file1), parseCSV(file2)]);
 };
 
-export { getTeams };
+export { loadTeams };

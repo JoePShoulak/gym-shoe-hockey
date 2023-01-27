@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Menu, Setup, Results } from "./Scenes";
 import { TeamContext } from "../util/TeamContext";
 import { useEffect } from "react";
-import { getTeams } from "../data/teams";
+import { loadTeams } from "../util/loadTeams";
 
 const Game = () => {
   const [teamData, setTeamData] = useState();
@@ -10,7 +10,7 @@ const Game = () => {
   const [teams, setTeams] = useState();
 
   useEffect(() => {
-    getTeams().then(setTeamData);
+    loadTeams().then(setTeamData);
   }, []);
 
   useEffect(() => {
