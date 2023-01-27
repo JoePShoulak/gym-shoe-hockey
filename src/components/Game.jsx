@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { local } from "@toolz/local-storage";
 
-import { Menu, Setup, Results, Upload } from "./Scenes";
+import { Menu, Setup, Results, Upload, Edit } from "./Scenes";
 
 import { GameContext } from "../util/GameContext";
 import { loadTeams } from "../util/loadTeams";
@@ -14,11 +14,8 @@ const Game = () => {
   useEffect(() => {
     const localData = local.getItem("teamData");
 
-    if (localData) {
-      console.log("loaded from local");
-      setTeamData(localData);
-    } else {
-      console.log("loaded from csv");
+    if (localData) setTeamData(localData);
+    else {
       loadTeams().then(data => {
         setTeamData(data);
         local.setItem("teamData", data);
@@ -29,8 +26,8 @@ const Game = () => {
   useEffect(() => {
     if (!selectedTeams && teamData) {
       setSelectedTeams({
-        home: teamData[0].name,
-        visitors: teamData[1].name,
+        visitors: teamData[0].name,
+        home: teamData[1].name,
       });
     }
   }, [selectedTeams, teamData]);
@@ -50,6 +47,7 @@ const Game = () => {
           {scene === "setup" && <Setup />}
           {scene === "play" && <Results />}
           {scene === "upload" && <Upload />}
+          {scene === "edit" && <Edit />}
         </>
       </GameContext.Provider>
     )

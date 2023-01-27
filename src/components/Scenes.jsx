@@ -24,6 +24,7 @@ const Menu = () => (
 
     <SceneButton scene="setup" />
     <SceneButton scene="upload" />
+    <SceneButton scene="edit" />
   </>
 );
 
@@ -70,9 +71,9 @@ const Upload = () => {
     if (!file) return;
 
     Team.parseCSV(file).then(team => {
-      if (GC.all.map(t => t.name).includes(team.name)) {
+      if (GC.all.map(t => t.name).includes(team.name))
         setMessage("Team already exists.");
-      } else {
+      else {
         const newData = [...GC.all, team];
 
         GC.setAll(newData);
@@ -96,4 +97,31 @@ const Upload = () => {
   );
 };
 
-export { Menu, Setup, Results, Upload };
+const Edit = () => {
+  const GC = useContext(GameContext);
+
+  const removeTeam = e => {
+    const newData = GC.all.filter(team => team.name !== e.target.dataset.name);
+    GC.setAll(newData);
+    local.setItem("teamData", newData);
+  };
+
+  return (
+    <>
+      <h3>Remove uploaded teams</h3>
+      <ul>
+        {GC.all.map(team => (
+          <li key={team.name}>
+            <p>{team.name}</p>
+            <button data-name={team.name} onClick={removeTeam}>
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
+      <SceneButton scene="menu" />
+    </>
+  );
+};
+
+export { Menu, Setup, Results, Upload, Edit };
