@@ -1,13 +1,13 @@
 import "./App.css";
 import Game from "./components/Game";
 
-function App() {
-  return (
-    <main>
-      <h1>Gym Shoe Hockey</h1>
+const App = () => (
+  <>
+    <h1 className="centered">Gym Shoe Hockey</h1>
+    <div className="centered">
       <Game />
-    </main>
-  );
-}
+    </div>
+  </>
+);
 
 export default App;

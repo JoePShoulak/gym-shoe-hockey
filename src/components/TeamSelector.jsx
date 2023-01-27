@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { capit } from "../lib/helper";
 import { GameContext } from "../util/GameContext";
 
 const TeamSelector = ({ id }) => {
@@ -6,7 +7,7 @@ const TeamSelector = ({ id }) => {
 
   return (
     <div>
-      <p>{id}</p>
+      <h4>{capit(id)}</h4>
       <select
         value={GC.selected[id]}
         onChange={e => {

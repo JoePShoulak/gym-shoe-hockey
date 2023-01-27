@@ -1,10 +1,9 @@
 import { useContext, useState } from "react";
+import { capit } from "../lib/helper";
 import { Game, Team } from "../lib/Hockey";
 import { GameContext } from "../util/GameContext";
 import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
-
-const capit = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 const SceneButton = ({ scene }) => {
   const GC = useContext(GameContext);
@@ -12,29 +11,31 @@ const SceneButton = ({ scene }) => {
   return <button onClick={() => GC.setScene(scene)}>{capit(scene)}</button>;
 };
 
-const Menu = () => {
-  return (
-    <>
-      <SceneButton scene="setup" />
-      <SceneButton scene="upload" />
-    </>
-  );
-};
+const Menu = () => (
+  <main>
+    <h3>Welcome!</h3>
+    <p>
+      Press Setup to create an exhibition match, or press Upload to add some
+      custom teams!
+    </p>
 
-const Setup = () => {
-  return (
-    <>
-      <p>Select your teams</p>
+    <SceneButton scene="setup" />
+    <SceneButton scene="upload" />
+  </main>
+);
 
-      {["visitors", "home"].map(team => (
-        <TeamSelector key={team} id={team} />
-      ))}
+const Setup = () => (
+  <main>
+    <h3>Select your teams</h3>
 
-      <SceneButton scene="play" />
-      <SceneButton scene="menu" />
-    </>
-  );
-};
+    {["visitors", "home"].map(team => (
+      <TeamSelector key={team} id={team} />
+    ))}
+
+    <SceneButton scene="play" />
+    <SceneButton scene="menu" />
+  </main>
+);
 
 const Results = () => {
   const GC = useContext(GameContext);
@@ -45,7 +46,7 @@ const Results = () => {
   const [game, setGame] = useState(new Game(visitors, home));
 
   return (
-    <>
+    <main>
       <Header game={game} />
       <BasicScore game={game} />
       <BoxScore game={game} />
@@ -53,7 +54,7 @@ const Results = () => {
 
       <button onClick={() => setGame(new Game(visitors, home))}>Replay</button>
       <SceneButton scene="menu" />
-    </>
+    </main>
   );
 };
 
@@ -77,7 +78,8 @@ const Upload = () => {
   };
 
   return (
-    <>
+    <main>
+      <h3>Upload a roster as a CSV!</h3>
       <input type="file" id="file" accept=".csv" />
       <button onClick={handleSubmit}>Upload</button>
       <p>{message}</p>
@@ -85,7 +87,7 @@ const Upload = () => {
         You have uploaded {count} file{count !== 1 && "s"}.
       </p>
       <SceneButton scene="menu" />
-    </>
+    </main>
   );
 };
 

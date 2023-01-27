@@ -2,7 +2,7 @@ import { doNTimes } from "../lib/helper";
 
 const Header = ({ game }) => (
   <>
-    <h2>{`${game.teams.vis.name} is playing ${game.teams.home.name}...`}</h2>
+    <h3>{`${game.teams.vis.name} is playing ${game.teams.home.name}...`}</h3>
     <p>{game.result}</p>
   </>
 );
