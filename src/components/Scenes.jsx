@@ -67,12 +67,11 @@ const Upload = () => {
 
     Team.parseCSV(file).then(team => {
       if (GC.all.map(t => t.name).includes(team.name)) {
-        console.log("dupe");
         setMessage("Team already exists.");
       } else {
         GC.setAll([...GC.all, team]);
         setCount(count + 1);
-        setMessage("");
+        setMessage(`Uploaded team: ${team.name}`);
       }
     });
   };
@@ -80,9 +79,11 @@ const Upload = () => {
   return (
     <>
       <input type="file" id="file" accept=".csv" />
-      <button onClick={handleSubmit}>Submit</button>
-      <p>You have uploaded {count} files.</p>
+      <button onClick={handleSubmit}>Upload</button>
       <p>{message}</p>
+      <p>
+        You have uploaded {count} file{count !== 1 && "s"}.
+      </p>
       <SceneButton scene="menu" />
     </>
   );
