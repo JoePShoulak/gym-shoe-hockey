@@ -123,7 +123,7 @@ const Edit = () => {
       <h3>Remove uploaded teams</h3>
       <ul>
         {GC.all.map(({ name }) => (
-          <li key={name}>
+          <li key={name} style={{ display: "flex" }}>
             <p>{name}</p>
             <button
               data-name={name}
