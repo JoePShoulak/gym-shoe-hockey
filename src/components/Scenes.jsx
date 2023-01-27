@@ -12,7 +12,7 @@ const SceneButton = ({ scene }) => {
 };
 
 const Menu = () => (
-  <main>
+  <>
     <h3>Welcome!</h3>
     <p>
       Press Setup to create an exhibition match, or press Upload to add some
@@ -21,11 +21,11 @@ const Menu = () => (
 
     <SceneButton scene="setup" />
     <SceneButton scene="upload" />
-  </main>
+  </>
 );
 
 const Setup = () => (
-  <main>
+  <>
     <h3>Select your teams</h3>
 
     {["visitors", "home"].map(team => (
@@ -34,7 +34,7 @@ const Setup = () => (
 
     <SceneButton scene="play" />
     <SceneButton scene="menu" />
-  </main>
+  </>
 );
 
 const Results = () => {
@@ -46,7 +46,7 @@ const Results = () => {
   const [game, setGame] = useState(new Game(visitors, home));
 
   return (
-    <main>
+    <>
       <Header game={game} />
       <BasicScore game={game} />
       <BoxScore game={game} />
@@ -54,7 +54,7 @@ const Results = () => {
 
       <button onClick={() => setGame(new Game(visitors, home))}>Replay</button>
       <SceneButton scene="menu" />
-    </main>
+    </>
   );
 };
 
@@ -78,7 +78,7 @@ const Upload = () => {
   };
 
   return (
-    <main>
+    <>
       <h3>Upload a roster as a CSV!</h3>
       <input type="file" id="file" accept=".csv" />
       <button onClick={handleSubmit}>Upload</button>
@@ -87,7 +87,7 @@ const Upload = () => {
         You have uploaded {count} file{count !== 1 && "s"}.
       </p>
       <SceneButton scene="menu" />
-    </main>
+    </>
   );
 };
 

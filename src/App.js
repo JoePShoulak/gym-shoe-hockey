@@ -3,9 +3,13 @@ import Game from "./components/Game";
 
 const App = () => (
   <>
-    <h1 className="centered">Gym Shoe Hockey</h1>
+    <header>
+      <h1 className="centered">Gym Shoe Hockey</h1>
+    </header>
     <div className="centered">
-      <Game />
+      <main>
+        <Game />
+      </main>
     </div>
   </>
 );
