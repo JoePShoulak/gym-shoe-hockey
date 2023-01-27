@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { local } from "@toolz/local-storage";
 
 import { Menu, Setup, Results, Upload } from "./Scenes";
 
@@ -11,7 +12,18 @@ const Game = () => {
   const [selectedTeams, setSelectedTeams] = useState();
 
   useEffect(() => {
-    loadTeams().then(setTeamData);
+    const localData = local.getItem("teamData");
+
+    if (localData) {
+      console.log("loaded from local");
+      setTeamData(localData);
+    } else {
+      console.log("loaded from csv");
+      loadTeams().then(data => {
+        setTeamData(data);
+        local.setItem("teamData", data);
+      });
+    }
   }, []);
 
   useEffect(() => {

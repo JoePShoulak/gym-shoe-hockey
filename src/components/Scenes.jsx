@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import { local } from "@toolz/local-storage";
 
 import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
@@ -62,18 +63,21 @@ const Results = () => {
 
 const Upload = () => {
   const GC = useContext(GameContext);
-  const [count, setCount] = useState(0);
   const [message, setMessage] = useState("");
 
   const handleSubmit = () => {
     const file = document.getElementById("file").files[0];
+    if (!file) return;
 
     Team.parseCSV(file).then(team => {
       if (GC.all.map(t => t.name).includes(team.name)) {
         setMessage("Team already exists.");
       } else {
-        GC.setAll([...GC.all, team]);
-        setCount(count + 1);
+        const newData = [...GC.all, team];
+
+        GC.setAll(newData);
+        local.setItem("teamData", newData);
+
         setMessage(`Uploaded team: ${team.name}`);
       }
     });
@@ -86,9 +90,6 @@ const Upload = () => {
       <input type="file" id="file" accept=".csv" />
       <button onClick={handleSubmit}>Upload</button>
       <p>{message}</p>
-      <p>
-        You have uploaded {count} file{count !== 1 && "s"}.
-      </p>
 
       <SceneButton scene="menu" />
     </>
