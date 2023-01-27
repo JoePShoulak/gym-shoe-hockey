@@ -7,6 +7,7 @@ import TeamSelector from "./TeamSelector";
 import { GameContext } from "../util/GameContext";
 import { Game, Team } from "../lib/Hockey";
 import { capit } from "../lib/helper";
+import { loadTeams } from "../util/loadTeams";
 
 const SceneButton = ({ scene }) => {
   const GC = useContext(GameContext);
@@ -101,25 +102,38 @@ const Edit = () => {
   const GC = useContext(GameContext);
 
   const removeTeam = e => {
-    const newData = GC.all.filter(team => team.name !== e.target.dataset.name);
+    let newData = GC.all.filter(team => team.name !== e.target.dataset.name);
+
     GC.setAll(newData);
     local.setItem("teamData", newData);
+  };
+
+  const resetTeams = () => {
+    loadTeams().then(data => {
+      GC.setAll(data);
+      local.setItem("teamData", data);
+    });
   };
 
   return (
     <>
       <h3>Remove uploaded teams</h3>
       <ul>
-        {GC.all.map(team => (
-          <li key={team.name}>
-            <p>{team.name}</p>
-            <button data-name={team.name} onClick={removeTeam}>
+        {GC.all.map(({ name }) => (
+          <li key={name}>
+            <p>{name}</p>
+            <button
+              data-name={name}
+              onClick={removeTeam}
+              disabled={GC.all.length <= 2}>
               Remove
             </button>
           </li>
         ))}
       </ul>
+
       <SceneButton scene="menu" />
+      <button onClick={resetTeams}>Reload Core</button>
     </>
   );
 };
