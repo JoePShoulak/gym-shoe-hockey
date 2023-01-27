@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+
 import { Menu, Setup, Results, Upload } from "./Scenes";
+
 import { GameContext } from "../util/GameContext";
 import { loadTeams } from "../util/loadTeams";
 

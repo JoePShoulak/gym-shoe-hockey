@@ -1,9 +1,11 @@
 import { useContext, useState } from "react";
-import { capit } from "../lib/helper";
-import { Game, Team } from "../lib/Hockey";
-import { GameContext } from "../util/GameContext";
+
 import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
+
+import { GameContext } from "../util/GameContext";
+import { Game, Team } from "../lib/Hockey";
+import { capit } from "../lib/helper";
 
 const SceneButton = ({ scene }) => {
   const GC = useContext(GameContext);
@@ -80,12 +82,14 @@ const Upload = () => {
   return (
     <>
       <h3>Upload a roster as a CSV!</h3>
+
       <input type="file" id="file" accept=".csv" />
       <button onClick={handleSubmit}>Upload</button>
       <p>{message}</p>
       <p>
         You have uploaded {count} file{count !== 1 && "s"}.
       </p>
+
       <SceneButton scene="menu" />
     </>
   );

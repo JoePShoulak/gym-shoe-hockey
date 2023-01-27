@@ -18,13 +18,15 @@ const byPeriod = p => g => g.period === p + 1;
 
 const BoxScore = ({ game }) => {
   const Header = () => (
-    <tr>
-      <th>Team</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>F</th>
-    </tr>
+    <thead>
+      <tr>
+        <th>Team</th>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+        <th>F</th>
+      </tr>
+    </thead>
   );
 
   const TeamRow = ({ teamType }) => (
@@ -39,9 +41,7 @@ const BoxScore = ({ game }) => {
 
   return (
     <table>
-      <thead>
-        <Header />
-      </thead>
+      <Header />
       <tbody>
         {["vis", "home"].map(team => (
           <TeamRow key={team} teamType={team} />
