@@ -9,10 +9,12 @@ import { Game, Team } from "../lib/Hockey";
 import { capit } from "../lib/helper";
 import { loadTeams } from "../util/loadTeams";
 
-const SceneButton = ({ scene }) => {
+const SceneButton = ({ scene, label }) => {
   const GC = useContext(GameContext);
 
-  return <button onClick={() => GC.setScene(scene)}>{capit(scene)}</button>;
+  return (
+    <button onClick={() => GC.setScene(scene)}>{label ?? capit(scene)}</button>
+  );
 };
 
 const Menu = () => (
@@ -23,7 +25,7 @@ const Menu = () => (
       custom teams!
     </p>
 
-    <SceneButton scene="setup" />
+    <SceneButton scene="setup" label="Pick Teams" />
     <SceneButton scene="upload" />
     <SceneButton scene="edit" />
   </>
@@ -58,6 +60,7 @@ const Results = () => {
       <PlayByPlay game={game} />
 
       <button onClick={() => setGame(new Game(visitors, home))}>Replay</button>
+      <SceneButton scene="setup" label="Change Teams" />
       <SceneButton scene="menu" />
     </>
   );
