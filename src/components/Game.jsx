@@ -13,9 +13,8 @@ const Game = () => {
 
   useEffect(() => {
     const localData = local.getItem("teamData");
-    console.log(localData);
 
-    if (localData.length > 0) {
+    if (localData && localData.length > 0) {
       setTeamData(localData);
     } else {
       loadTeams().then(data => {
