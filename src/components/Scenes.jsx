@@ -1,14 +1,15 @@
 import { useContext, useState } from "react";
-import { Game } from "../lib/Hockey";
+import { Game, Team } from "../lib/Hockey";
 import { GameContext } from "../util/GameContext";
-import { parseUpload } from "../util/loadTeams";
 import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
+
+const capit = s => s.charAt(0).toUpperCase() + s.slice(1);
 
 const SceneButton = ({ scene }) => {
   const GC = useContext(GameContext);
 
-  return <button onClick={() => GC.setScene(scene)}>{scene}</button>;
+  return <button onClick={() => GC.setScene(scene)}>{capit(scene)}</button>;
 };
 
 const Menu = () => {
@@ -24,9 +25,11 @@ const Setup = () => {
   return (
     <>
       <p>Select your teams</p>
+
       {["visitors", "home"].map(team => (
         <TeamSelector key={team} id={team} />
       ))}
+
       <SceneButton scene="play" />
       <SceneButton scene="menu" />
     </>
@@ -47,6 +50,7 @@ const Results = () => {
       <BasicScore game={game} />
       <BoxScore game={game} />
       <PlayByPlay game={game} />
+
       <button onClick={() => setGame(new Game(visitors, home))}>Replay</button>
       <SceneButton scene="menu" />
     </>
@@ -55,20 +59,30 @@ const Results = () => {
 
 const Upload = () => {
   const GC = useContext(GameContext);
+  const [count, setCount] = useState(0);
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const file = e.target.files[0];
-    parseUpload(file, true).then(csv => {
-      console.log(csv);
-      GC.setAll([...GC.all, csv]);
-      console.log(GC.all);
+  const handleSubmit = () => {
+    const file = document.getElementById("file").files[0];
+
+    Team.parseCSV(file).then(team => {
+      if (GC.all.map(t => t.name).includes(team.name)) {
+        console.log("dupe");
+        setMessage("Team already exists.");
+      } else {
+        GC.setAll([...GC.all, team]);
+        setCount(count + 1);
+        setMessage("");
+      }
     });
   };
 
   return (
     <>
-      <input type="file" onChange={handleSubmit} accept=".csv" />
+      <input type="file" id="file" accept=".csv" />
+      <button onClick={handleSubmit}>Submit</button>
+      <p>You have uploaded {count} files.</p>
+      <p>{message}</p>
       <SceneButton scene="menu" />
     </>
   );

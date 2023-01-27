@@ -1,4 +1,5 @@
 import { doNTimes, shuffle } from "../lib/helper";
+import Papa from "papaparse";
 
 class Player {
   static parseCSV = player => {
@@ -69,6 +70,26 @@ class Goalie extends Player {
 }
 
 class Team {
+  static async parseCSV(file) {
+    let data;
+    if (typeof file === "string" || file instanceof String)
+      data = await fetch(file);
+    else data = file;
+
+    const csv = await data.text();
+    const titleData = Papa.parse(csv, { preview: 1 });
+
+    const playerData = Papa.parse(csv, {
+      comments: "//",
+      header: true,
+    });
+
+    const title = titleData.data[0][1];
+    const players = playerData.data.map(Player.parseCSV);
+
+    return new Team(title, ...players);
+  }
+
   constructor(name, ...players) {
     this.name = name;
     this.players = players;

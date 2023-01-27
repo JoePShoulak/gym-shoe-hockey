@@ -3,7 +3,6 @@ import { GameContext } from "../util/GameContext";
 
 const TeamSelector = ({ id }) => {
   const GC = useContext(GameContext);
-  console.log(GC.all);
 
   return (
     <div>
