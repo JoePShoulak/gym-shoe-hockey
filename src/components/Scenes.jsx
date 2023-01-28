@@ -4,22 +4,22 @@ import { local } from "@toolz/local-storage";
 import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
 
-import { GameContext } from "../util/GameContext";
+import { ExhibitionContext } from "../util/ExhibitionContext";
 import { Game, Team } from "../lib/Hockey";
 import { capit } from "../lib/helper";
 import { loadTeams } from "../util/loadTeams";
 
 const SceneButton = ({ scene, label }) => {
-  const GC = useContext(GameContext);
+  const EC = useContext(ExhibitionContext);
 
   return (
-    <button onClick={() => GC.setScene(scene)}>{label ?? capit(scene)}</button>
+    <button onClick={() => EC.setScene(scene)}>{label ?? capit(scene)}</button>
   );
 };
 
 const Menu = () => (
   <>
-    <h3>Welcome!</h3>
+    <h3>Welcome to the Exhibition!</h3>
     <p>Press Pick Teams to create an exhibition match!</p>
     <p>
       If you want to change teams, you can click New Team to upload a new team,
@@ -46,10 +46,10 @@ const Setup = () => (
 );
 
 const Results = () => {
-  const GC = useContext(GameContext);
+  const EC = useContext(ExhibitionContext);
 
-  const visitors = GC.all.filter(team => team.name === GC.selected.visitors)[0];
-  const home = GC.all.filter(team => team.name === GC.selected.home)[0];
+  const visitors = EC.all.filter(team => team.name === EC.selected.visitors)[0];
+  const home = EC.all.filter(team => team.name === EC.selected.home)[0];
 
   const [game, setGame] = useState(new Game(visitors, home));
 
@@ -68,7 +68,7 @@ const Results = () => {
 };
 
 const Upload = () => {
-  const GC = useContext(GameContext);
+  const EC = useContext(ExhibitionContext);
   const [message, setMessage] = useState("");
 
   const handleSubmit = () => {
@@ -76,12 +76,12 @@ const Upload = () => {
     if (!file) return;
 
     Team.parseCSV(file).then(team => {
-      if (GC.all.map(t => t.name).includes(team.name))
+      if (EC.all.map(t => t.name).includes(team.name))
         setMessage("Team already exists.");
       else {
-        const newData = [...GC.all, team];
+        const newData = [...EC.all, team];
 
-        GC.setAll(newData);
+        EC.setAll(newData);
         local.setItem("teamData", newData);
 
         setMessage(`Uploaded team: ${team.name}`);
@@ -103,21 +103,21 @@ const Upload = () => {
 };
 
 const Edit = () => {
-  const GC = useContext(GameContext);
+  const EC = useContext(ExhibitionContext);
 
   const updateTeams = data => {
-    GC.setAll(data);
+    EC.setAll(data);
     local.setItem("teamData", data);
   };
 
   const removeTeam = e => {
-    let newData = GC.all.filter(team => team.name !== e.target.dataset.name);
+    let newData = EC.all.filter(team => team.name !== e.target.dataset.name);
 
     updateTeams(newData);
   };
 
   const RemoveButton = ({ name }) => (
-    <button data-name={name} onClick={removeTeam} disabled={GC.all.length <= 2}>
+    <button data-name={name} onClick={removeTeam} disabled={EC.all.length <= 2}>
       Remove
     </button>
   );
@@ -135,7 +135,7 @@ const Edit = () => {
     <>
       <h3>Remove uploaded teams</h3>
       <ul>
-        {GC.all.map(({ name }) => (
+        {EC.all.map(({ name }) => (
           <TeamListEntry key={name} name={name} />
         ))}
       </ul>

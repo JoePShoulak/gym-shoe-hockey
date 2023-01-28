@@ -3,10 +3,10 @@ import { local } from "@toolz/local-storage";
 
 import { Menu, Setup, Results, Upload, Edit } from "./Scenes";
 
-import { GameContext } from "../util/GameContext";
+import { ExhibitionContext } from "../util/ExhibitionContext";
 import { loadTeams } from "../util/loadTeams";
 
-const Game = () => {
+const Exhibition = () => {
   const [teamData, setTeamData] = useState();
   const [scene, setScene] = useState("menu");
   const [selectedTeams, setSelectedTeams] = useState();
@@ -35,7 +35,7 @@ const Game = () => {
 
   return (
     teamData && (
-      <GameContext.Provider
+      <ExhibitionContext.Provider
         value={{
           all: teamData,
           setAll: setTeamData,
@@ -50,9 +50,9 @@ const Game = () => {
           {scene === "upload" && <Upload />}
           {scene === "edit" && <Edit />}
         </>
-      </GameContext.Provider>
+      </ExhibitionContext.Provider>
     )
   );
 };
 
-export default Game;
+export default Exhibition;

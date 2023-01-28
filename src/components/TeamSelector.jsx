@@ -1,21 +1,21 @@
 import { useContext } from "react";
 import { capit } from "../lib/helper";
-import { GameContext } from "../util/GameContext";
+import { ExhibitionContext } from "../util/ExhibitionContext";
 
 const TeamSelector = ({ id }) => {
-  const GC = useContext(GameContext);
+  const EC = useContext(ExhibitionContext);
 
   return (
     <div>
       <h4>{capit(id)}</h4>
       <select
-        value={GC.selected[id]}
+        value={EC.selected[id]}
         onChange={e => {
-          const newTeams = { ...GC.selected };
+          const newTeams = { ...EC.selected };
           newTeams[id] = e.target.value;
-          GC.setSelected(newTeams);
+          EC.setSelected(newTeams);
         }}>
-        {GC.all.map(t => (
+        {EC.all.map(t => (
           <option key={t.name} value={t.name}>
             {t.name}
           </option>

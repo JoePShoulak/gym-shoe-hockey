@@ -1,5 +1,5 @@
 import "./App.css";
-import Game from "./components/Game";
+import Exhibition from "./components/Exhibition";
 
 const App = () => (
   <>
@@ -8,7 +8,7 @@ const App = () => (
     </header>
     <div className="centered">
       <main>
-        <Game />
+        <Exhibition />
       </main>
     </div>
   </>
