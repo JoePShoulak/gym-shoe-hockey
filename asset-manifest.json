@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/gym-shoe-hockey/static/css/main.6402c990.css",
-    "main.js": "/gym-shoe-hockey/static/js/main.3f33ef2e.js",
+    "main.js": "/gym-shoe-hockey/static/js/main.20920340.js",
     "index.html": "/gym-shoe-hockey/index.html",
     "static/media/Jihlava.csv": "/gym-shoe-hockey/static/media/Jihlava.a27e1d5215c374745329.csv",
     "static/media/Kladno.csv": "/gym-shoe-hockey/static/media/Kladno.adc685aa76af92269f08.csv",
     "static/media/Liberec.csv": "/gym-shoe-hockey/static/media/Liberec.a7e41c0b5eda5866a477.csv",
     "main.6402c990.css.map": "/gym-shoe-hockey/static/css/main.6402c990.css.map",
-    "main.3f33ef2e.js.map": "/gym-shoe-hockey/static/js/main.3f33ef2e.js.map"
+    "main.20920340.js.map": "/gym-shoe-hockey/static/js/main.20920340.js.map"
   },
   "entrypoints": [
     "static/css/main.6402c990.css",
-    "static/js/main.3f33ef2e.js"
+    "static/js/main.20920340.js"
   ]
 }
