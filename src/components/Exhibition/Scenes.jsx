@@ -4,10 +4,10 @@ import { local } from "@toolz/local-storage";
 import { BasicScore, Header, BoxScore, PlayByPlay } from "./ScoreDisplay";
 import TeamSelector from "./TeamSelector";
 
-import { ExhibitionContext } from "../util/ExhibitionContext";
-import { Game, Team } from "../lib/Hockey";
-import { capit } from "../lib/helper";
-import { loadTeams } from "../util/loadTeams";
+import { ExhibitionContext } from "../../util/ExhibitionContext";
+import { Game, Team } from "../../lib/Hockey";
+import { capit } from "../../lib/helper";
+import { loadTeams } from "../../util/loadTeams";
 
 const SceneButton = ({ scene, label }) => {
   const EC = useContext(ExhibitionContext);

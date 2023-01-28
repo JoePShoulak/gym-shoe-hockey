@@ -3,8 +3,8 @@ import { local } from "@toolz/local-storage";
 
 import { Menu, Setup, Results, Upload, Edit } from "./Scenes";
 
-import { ExhibitionContext } from "../util/ExhibitionContext";
-import { loadTeams } from "../util/loadTeams";
+import { ExhibitionContext } from "../../util/ExhibitionContext";
+import { loadTeams } from "../../util/loadTeams";
 
 const Exhibition = () => {
   const [teamData, setTeamData] = useState();

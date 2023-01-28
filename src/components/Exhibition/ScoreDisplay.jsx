@@ -1,4 +1,4 @@
-import { doNTimes } from "../lib/helper";
+import { doNTimes } from "../../lib/helper";
 
 const Header = ({ game }) => (
   <>

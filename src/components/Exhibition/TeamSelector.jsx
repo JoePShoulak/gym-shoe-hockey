@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { capit } from "../lib/helper";
-import { ExhibitionContext } from "../util/ExhibitionContext";
+import { capit } from "../../lib/helper";
+import { ExhibitionContext } from "../../util/ExhibitionContext";
 
 const TeamSelector = ({ id }) => {
   const EC = useContext(ExhibitionContext);
