@@ -20,14 +20,15 @@ const SceneButton = ({ scene, label }) => {
 const Menu = () => (
   <>
     <h3>Welcome!</h3>
+    <p>Press Pick Teams to create an exhibition match!</p>
     <p>
-      Press Setup to create an exhibition match, or press Upload to add some
-      custom teams!
+      If you want to change teams, you can click New Team to upload a new team,
+      or Edit Teams to remove teams.
     </p>
 
     <SceneButton scene="setup" label="Pick Teams" />
-    <SceneButton scene="upload" />
-    <SceneButton scene="edit" />
+    <SceneButton scene="upload" label="New Team" />
+    <SceneButton scene="edit" label="Edit Teams" />
   </>
 );
 
