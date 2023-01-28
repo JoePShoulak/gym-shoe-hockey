@@ -105,34 +105,38 @@ const Upload = () => {
 const Edit = () => {
   const GC = useContext(GameContext);
 
+  const updateTeams = data => {
+    GC.setAll(data);
+    local.setItem("teamData", data);
+  };
+
   const removeTeam = e => {
     let newData = GC.all.filter(team => team.name !== e.target.dataset.name);
 
-    GC.setAll(newData);
-    local.setItem("teamData", newData);
+    updateTeams(newData);
   };
 
-  const resetTeams = () => {
-    loadTeams().then(data => {
-      GC.setAll(data);
-      local.setItem("teamData", data);
-    });
-  };
+  const RemoveButton = ({ name }) => (
+    <button data-name={name} onClick={removeTeam} disabled={GC.all.length <= 2}>
+      Remove
+    </button>
+  );
+
+  const TeamListEntry = ({ name }) => (
+    <li style={{ display: "flex" }}>
+      <p>{name}</p>
+      <RemoveButton />
+    </li>
+  );
+
+  const resetTeams = () => loadTeams().then(updateTeams);
 
   return (
     <>
       <h3>Remove uploaded teams</h3>
       <ul>
         {GC.all.map(({ name }) => (
-          <li key={name} style={{ display: "flex" }}>
-            <p>{name}</p>
-            <button
-              data-name={name}
-              onClick={removeTeam}
-              disabled={GC.all.length <= 2}>
-              Remove
-            </button>
-          </li>
+          <TeamListEntry key={name} name={name} />
         ))}
       </ul>
 
